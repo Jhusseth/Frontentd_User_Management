@@ -1,0 +1,15 @@
+.bg-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(60, 54, 107) 0%,
+    rgba(87, 69, 217) 100%
+  );
+}
+
+.container-add{
+  margin-top: 20px;
+  float: right;
+  right: 0;
+  left: auto;
+  display: inline;
+}
