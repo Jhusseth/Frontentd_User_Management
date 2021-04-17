@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCogs,
-  faDoorOpen
+  faCogs
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import logo from './../images/logo.png';

@@ -1,15 +1,15 @@
 import React,{ useContext, useState } from 'react'
 import GradientBar from './common/GradientBar';
 import Card from './common/Card';
-import { Form, Formik, Field} from 'formik';
+import { Form, Formik } from 'formik';
 import FormSuccess from './FormSuccess'
 import FormError from './common/FormError'
 import FormInput from './FormInput'
 import Label from './common/Label';
 import GradientButton from './common/GradientButton';
 import * as Yup from 'yup';
-// import { AuthContext } from '../context/AuthContext';
-import { publicFetch } from './../util/fetch';
+import { AuthContext } from '../context/AuthContext';
+import { publicFetch } from '../util/fetch';
 import { Redirect } from 'react-router-dom';
 
 export default function AddCampus() {
@@ -30,38 +30,37 @@ export default function AddCampus() {
           ), 
     });
 
-    // const authContext = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
     const [signupSuccess, setSignupSuccess] = useState();
     const [signupError, setSignupError] = useState();
     const [redirectOnLogin, setRedirectOnLogin] = useState(false)
     
     
-    const [addCampus, setCampus] = useState(false);
+    const [loginLoading, setLoginLoading] = useState(false);
     
     const submitCredentials = async credentials => {
         try {
-            setCampus(true);
+            setLoginLoading(true);
             const { data } = await publicFetch.post(
-                `campus`,
+                `signup`,
                 credentials
         );
     
-        // authContext.setAuthState(data);
+        authContext.setAuthState(data);
         setSignupSuccess(data.message);
         setSignupError('');
     
         setTimeout(() => {
             setRedirectOnLogin(true);
-        }, 200);
+        }, 700);
 
         }
         catch (error) {
-            setCampus(false);
+            setLoginLoading(false);
             const { data } = error.response;
             setSignupError(data.message);
             setSignupSuccess('');
         }
-        // console.log(credentials);
     };
     return (
         <>
@@ -84,7 +83,7 @@ export default function AddCampus() {
                                 }
                                 validationSchema={SignupSchema}
                             >
-                                {({values}) => (
+                                {() => (
                                 <Form className="mt-8">
                                     {signupSuccess && (
                                     <FormSuccess text={signupSuccess} />
@@ -116,8 +115,8 @@ export default function AddCampus() {
                                                 </div>
                                                 <div>
                                                     <label className="inline-flex items-center">
-                                                        <Field type="checkbox" className="form-checkbox mt-2 ml-4" name="active" />
-                                                        <span className="ml-4 mt-2">{values.active ? "Active": "Disable"}</span>
+                                                        <input type="checkbox" className="form-checkbox mt-2 ml-4" name="accountType" value="validateCampus"/>
+                                                        <span className="ml-4 mt-2">Active</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -168,7 +167,7 @@ export default function AddCampus() {
                                     <GradientButton
                                         type="submit"
                                         text="Save"
-                                        loading={addCampus}
+                                        loading={loginLoading}
                                     />
                                     </div>
                                 </Form>

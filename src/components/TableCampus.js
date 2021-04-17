@@ -9,7 +9,8 @@ import {
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-export default function TableCampus() {
+export default function TableCampus(props) {
+
     return (
         <>
             <GradientBar />
@@ -25,10 +26,10 @@ export default function TableCampus() {
                                     status
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    Ubication
+                                    ubication
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    Contacts
+                                    contacts
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
                                     users
@@ -42,66 +43,68 @@ export default function TableCampus() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div className="flex items-center justify-center">
-                                        <div className="ml-3">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
-                                            </p>
+                            {props.campuses.map(campus=> (
+                                <tr>
+                                    <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div className="flex items-center justify-center">
+                                            <div className="ml-3">
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {campus.name}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                    </td>
+                                    <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                            </span>
+                                            <span className="relative">
+                                                {campus.active? "Active":"Disable"}
+                                            </span>
                                         </span>
-                                        <span className="relative">
-                                            active
+                                    </td>
+                                    <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                            </span>
+                                            <span className="relative">
+                                                active
+                                            </span>
                                         </span>
-                                    </span>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
-                                        </span>
-                                        <span className="relative">
-                                            active
-                                        </span>
-                                    </span>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div className="flex justify-center">
-                                        <ButtonLink
-                                            to='/contacts'
-                                            text='Ver'
-                                            />
-                                    </div>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5">
-                                    <div className="flex justify-center">
-                                        <ButtonLink
-                                            to='/contacts'
-                                            text='Ver'
-                                            />
-                                    </div>
-                                </td>
+                                    </td>
+                                    <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div className="flex justify-center">
+                                            <ButtonLink
+                                                to='/contacts'
+                                                text='Ver'
+                                                />
+                                        </div>
+                                    </td>
+                                    <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5">
+                                        <div className="flex justify-center">
+                                            <ButtonLink
+                                                to='/users'
+                                                text='Ver'
+                                                />
+                                        </div>
+                                    </td>
 
-                                <td className="px-0 py-5 border-b border-gray-200  text-sm items-center">
-                                    <div className="flex justify-center">
-                                        <button className="rounded-full shadow flex items-center px-3 py-3">
-                                            <FontAwesomeIcon icon={faEdit} />
-                                        </button>
-                                    </div>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 text-sm items-center">
-                                    <div className="flex justify-center">
-                                        <button className="rounded-full shadow hover:text-indigo-900 flex items-center px-3 py-3 ">
-                                            <FontAwesomeIcon icon={faTrashAlt} />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    <td className="px-0 py-5 border-b border-gray-200  text-sm items-center">
+                                        <div className="flex justify-center">
+                                            <button className="rounded-full shadow flex items-center px-3 py-3">
+                                                <FontAwesomeIcon icon={faEdit} />
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td className="px-0 py-5 border-b border-gray-200 text-sm items-center">
+                                        <div className="flex justify-center">
+                                            <button className="rounded-full shadow hover:text-indigo-900 flex items-center px-3 py-3 ">
+                                                <FontAwesomeIcon icon={faTrashAlt} />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                             ))}
                         </tbody>
                     </table>
                 </div>

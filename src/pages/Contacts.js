@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import TableContacts from '../components/TableContacts'
 import Button from '../components/common/GradientButton'
-import AddContacts from '../components/AddContacts'
+import AddContact from '../components/AddContact'
+import PageTitle from '../components/common/PageTitle';
 
 export default function Contacts() {
 
@@ -15,6 +16,7 @@ export default function Contacts() {
     return (
         <>
             <div className="container mx-auto px-4">
+                <PageTitle title="Contacts" />
                 <div className="py-8">
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div>
@@ -24,7 +26,7 @@ export default function Contacts() {
                             <Button text="Add > " onClick={showAddPanel}/>
                         </div>
                         <div style={{display: `${showAdd ? 'block' : 'none'}`}}>
-                            <AddContacts />
+                            <AddContact />
                         </div>
                     </div>
                 </div>

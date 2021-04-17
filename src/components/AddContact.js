@@ -17,24 +17,20 @@ export default function AddCampus() {
 
     const SignupSchema = Yup.object().shape({
         name: Yup.string().required(
-            'Campus name is required'
+            'Contact name is required'
         ), 
-        city: Yup.string().required(
-            'City name is required'
+        email: Yup.string().required(
+            'Email is required'
           ),
-        address: Yup.string().required(
-            'Address is required'
-        ),
-        zipcode: Yup.string().required(
-            'ZipCode is required'
-          ), 
+        phone: Yup.string().required(
+            'Phone is required'
+        )
     });
 
     const authContext = useContext(AuthContext);
     const [signupSuccess, setSignupSuccess] = useState();
     const [signupError, setSignupError] = useState();
     const [redirectOnLogin, setRedirectOnLogin] = useState(false)
-    const [campus, setCampus] = useState();
     
     
     const [loginLoading, setLoginLoading] = useState(false);
@@ -66,7 +62,7 @@ export default function AddCampus() {
     return (
         <>
             {redirectOnLogin && <Redirect to="/campus" />}
-            <section className="w-1/2 h-screen m-auto sm:pt-10">
+            <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
                 <Card>
                     <div className="flex items-center justify-center py-7 px-2 sm:px-3 lg:px-3">
@@ -99,40 +95,40 @@ export default function AddCampus() {
                                     />
                                     <div>
                                         <div className="flex">
-                                            <div className="mb-2 mr-2 w-1/3">
+                                            <div className="mb-2 mr-2 w-64">
                                                 <div className="mb-1">
-                                                    <Label text="City" />
+                                                    <Label text="Name" />
                                                 </div>
                                                 <FormInput
-                                                    ariaLabel="City"
-                                                    name="city"
+                                                    ariaLabel="Name"
+                                                    name="name"
                                                     type="text"
-                                                    placeholder="City"
+                                                    placeholder="Name"
                                                 />
                                             </div>
-                                            <div className="mb-2 ml-2 w-1/2">
-                                                <div className="mb-1 ml-4">
-                                                    <Label text="Address" />
+                                            <div className="mb-2 ml-2 w-4/5">
+                                                <div className="mb-1">
+                                                    <Label text="Email" />
                                                 </div>
                                                 <div>
                                                 <FormInput
-                                                    ariaLabel="Address"
-                                                    name="address"
-                                                    type="address"
-                                                    placeholder="Address"
+                                                    ariaLabel="Email"
+                                                    name="email"
+                                                    type="email"
+                                                    placeholder="Email"
                                                 />
                                                 </div>
                                             </div>
-                                            <div className="mb-2 ml-3 w-1/3">
-                                                <div className="mb-1 ml-4">
-                                                    <Label text="ZipCode" />
+                                            <div className="mb-2 ml-3 w-64">
+                                                <div className="mb-1">
+                                                    <Label text="Phone" />
                                                 </div>
                                                 <div>
                                                 <FormInput
-                                                    ariaLabel="Zipcode"
-                                                    name="zipcode"
-                                                    type="number"
-                                                    placeholder="Zipcode"
+                                                    ariaLabel="Pnone"
+                                                    name="phone"
+                                                    type="phone"
+                                                    placeholder="Phone"
                                                 />
                                                 </div>
                                             </div>
