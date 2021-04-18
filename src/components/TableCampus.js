@@ -4,6 +4,7 @@ import Card from '../components/common/Card';
 import GradientBar from './../components/common/GradientBar';
 import { publicFetch } from '../util/fetch';
 import Alert from '../components/Alert'
+import EditCampus from '../components/EditCampus'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,8 +14,10 @@ import {
 
 export default function TableCampus(props) {
 
-    const [response, setResponse] = useState();
+    const [mResponse, setMResponse] = useState();
     const [show, setShow] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [campus, setCampus] = useState();
 
     const deleteCampus = async (id)=>{
         try {
@@ -22,27 +25,36 @@ export default function TableCampus(props) {
             `campus/delete/${id}` 
             );
                 
-            setResponse(data.message)
+            setMResponse(data.message)
             setShow(true)
         }
         catch (error) {
             const { data } = error.response;
-            setResponse(data.message)
+            setMResponse(data.message)
             setShow(true)
         }
 
-        window.location.reload()
+        setTimeout(() => {
+            window.location.reload()
+        }, 700);
     }
 
     const close = ()=>{
         setShow(false)
     }
 
+    const edit = (campus)=>{
+        setCampus(campus)
+        console.log(campus)
+        setShowModal(true)
+    }
+
     return (
         <>
+            {showModal?<EditCampus setShowModal={setShowModal} campus={campus} showModal={showModal}/>:<>
             <GradientBar />
             <Card>
-                {show?<Alert text={response} close={close}/>:null}
+                {show?<Alert text={mResponse} close={close}/>:null}
                 <div className="inline-block min-w-full rounded-lg overflow-hidden">
                     <table className="min-w-full leading-normal">
                         <thead>
@@ -71,8 +83,8 @@ export default function TableCampus(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {props.campuses.map((campus,index)=> (
-                                <tr key={index}>
+                            {props.campuses.map((campus) => (
+                                <tr key={campus._id}>
                                     <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div className="flex items-center justify-center">
                                             <div className="ml-3">
@@ -119,7 +131,7 @@ export default function TableCampus(props) {
 
                                     <td className="px-0 py-5 border-b border-gray-200  text-sm items-center">
                                         <div className="flex justify-center">
-                                            <button className="rounded-full shadow flex items-center px-3 py-3">
+                                            <button className="rounded-full shadow flex items-center px-3 py-3" onClick={()=>edit(campus)}>
                                                 <FontAwesomeIcon icon={faEdit} />
                                             </button>
                                         </div>
@@ -136,7 +148,7 @@ export default function TableCampus(props) {
                         </tbody>
                     </table>
                 </div>
-            </Card>
+            </Card></>}
         </>
     )
 }
