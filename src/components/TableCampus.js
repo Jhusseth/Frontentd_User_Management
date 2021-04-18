@@ -1,7 +1,9 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ButtonLink from '../components/common/GradientLink';
 import Card from '../components/common/Card';
 import GradientBar from './../components/common/GradientBar';
+import { publicFetch } from '../util/fetch';
+import Alert from '../components/Alert'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,10 +13,36 @@ import {
 
 export default function TableCampus(props) {
 
+    const [response, setResponse] = useState();
+    const [show, setShow] = useState(false);
+
+    const deleteCampus = async (id)=>{
+        try {
+            const { data } = await publicFetch.delete(
+            `campus/delete/${id}` 
+            );
+                
+            setResponse(data.message)
+            setShow(true)
+        }
+        catch (error) {
+            const { data } = error.response;
+            setResponse(data.message)
+            setShow(true)
+        }
+
+        window.location.reload()
+    }
+
+    const close = ()=>{
+        setShow(false)
+    }
+
     return (
         <>
             <GradientBar />
             <Card>
+                {show?<Alert text={response} close={close}/>:null}
                 <div className="inline-block min-w-full rounded-lg overflow-hidden">
                     <table className="min-w-full leading-normal">
                         <thead>
@@ -43,8 +71,8 @@ export default function TableCampus(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {props.campuses.map(campus=> (
-                                <tr>
+                            {props.campuses.map((campus,index)=> (
+                                <tr key={index}>
                                     <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div className="flex items-center justify-center">
                                             <div className="ml-3">
@@ -68,7 +96,7 @@ export default function TableCampus(props) {
                                             <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                             </span>
                                             <span className="relative">
-                                                active
+                                                {campus.ubication.address + ", " +campus.ubication.city + ", " + campus.ubication.zipcode}
                                             </span>
                                         </span>
                                     </td>
@@ -98,7 +126,7 @@ export default function TableCampus(props) {
                                     </td>
                                     <td className="px-0 py-5 border-b border-gray-200 text-sm items-center">
                                         <div className="flex justify-center">
-                                            <button className="rounded-full shadow hover:text-indigo-900 flex items-center px-3 py-3 ">
+                                            <button className="rounded-full shadow hover:text-indigo-900 flex items-center px-3 py-3 " onClick={()=>deleteCampus(campus._id)}>
                                                 <FontAwesomeIcon icon={faTrashAlt} />
                                             </button>
                                         </div>

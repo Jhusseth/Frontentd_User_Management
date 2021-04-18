@@ -72,6 +72,9 @@ const AppRoutes = () => {
           <AuthenticatedRoute path="/campus">
             <Campus />
           </AuthenticatedRoute>
+          <AuthenticatedRoute path="/campus2">
+            <Redirect to="/campus" />
+          </AuthenticatedRoute>
           <AuthenticatedRoute path="/contacts">
             <Contacts />
           </AuthenticatedRoute>

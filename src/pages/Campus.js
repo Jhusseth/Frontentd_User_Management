@@ -25,12 +25,7 @@ export default function Campus() {
 
     const showAddPanel =()=>{
         setShowAdd(!showAdd)
-        console.log('' + showAdd)
     }
-
-    
-
-    // const campuses = []
 
     return (
         <>
@@ -45,7 +40,7 @@ export default function Campus() {
                             <Button text="Add > " onClick={showAddPanel}/>
                         </div>
                         <div style={{display: `${showAdd ? 'block' : 'none'}`}}>
-                            <AddCampus />
+                            <AddCampus showPanel={showAddPanel}/>
                         </div>
                     </div>
                 </div>
