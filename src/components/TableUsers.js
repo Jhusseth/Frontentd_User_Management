@@ -1,12 +1,55 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import Card from './common/Card';
 import GradientBar from './common/GradientBar';
+import { publicFetch } from '../util/fetch';
+import Alert from '../components/Alert'
+import EditUser from '../components/EditUser'
+import moment from 'moment'
 
-export default function TableCampus() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEdit,
+  faTrashAlt
+} from '@fortawesome/free-solid-svg-icons';
+
+export default function TableCampus(props) {
+
+    const [mResponse, setMResponse] = useState();
+    const [show, setShow] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [user, setUser] = useState();
+
+    const deleteUser = async (id)=>{
+        try {
+            const { data } = await publicFetch.delete(
+            `${props.idCampus}/user/delete/${id}` 
+            );
+                
+            setMResponse(data.message)
+            setShow(true)
+        }
+        catch (error) {
+            const { data } = error.response;
+            setMResponse(data.message)
+            setShow(true)
+        }
+    }
+
+    const close = ()=>{
+        setShow(false)
+    }
+
+    const edit = (user)=>{
+        setUser(user)
+        setShowModal(true)
+    }
+
     return (
         <>
+            {showModal?<EditUser setShowModal={setShowModal} user={user} showModal={showModal}/>:<>
             <GradientBar />
             <Card>
+                {show?<Alert text={mResponse} close={close}/>:null}
                 <div className="inline-block min-w-full rounded-lg overflow-hidden">
                     <table className="min-w-full leading-normal">
                         <thead>
@@ -21,26 +64,27 @@ export default function TableCampus() {
                                     email
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    password
+                                    valid until
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    valid_until
+                                    valid
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    sede
+                                    edit
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    status
+                                    delete
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
+                            {props.users.map((user) => (
+                            <tr key={user._id}>
+                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                     <div className="flex items-center justify-center">
                                         <div className="ml-3">
                                             <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
+                                                {user.firstName}
                                             </p>
                                         </div>
                                     </div>
@@ -49,7 +93,7 @@ export default function TableCampus() {
                                     <div className="flex items-center justify-center">
                                         <div className="ml-3">
                                             <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
+                                                {user.lastName}
                                             </p>
                                         </div>
                                     </div>
@@ -58,53 +102,52 @@ export default function TableCampus() {
                                     <div className="flex items-center justify-center">
                                         <div className="ml-3">
                                             <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
+                                                {user.email}
                                             </p>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <div className="flex items-center justify-center">
-                                        <div className="ml-3">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5">
-                                    <div className="flex items-center justify-center">
-                                        <div className="ml-3">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td className="px-0 py-5 border-b border-gray-200  text-sm items-center">
-                                    <div className="flex items-center justify-center">
-                                        <div className="ml-3">
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                Jean marc
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-0 py-5 border-b border-gray-200 text-sm items-center text-center">
+                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5 text-center">
                                     <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                         <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                         </span>
                                         <span className="relative">
-                                            active
+                                            {/* {user.valid_until.split('T')[0] + " " + user.valid_until.split('T')[1].split('.')[0].split(':')[0] + ":" + user.valid_until.split('T')[1].split('.')[0].split(':')[1]} */}
+                                            {moment(user.valid_until).format('MMMM Do YYYY, hh:mm a')}
+                                            
                                         </span>
                                     </span>
                                 </td>
+
+                                <td className="px-0 py-5 border-b border-gray-200  text-sm items-center text-center">
+                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                        <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                        </span>
+                                        <span className="relative">
+                                            {user.valid? "Active":"Disable"}
+                                        </span>
+                                    </span>
+                                </td>
+                                <td className="px-0 py-5 border-b border-gray-200  text-sm items-center">
+                                    <div className="flex justify-center">
+                                        <button className="rounded-full shadow flex items-center px-3 py-3" onClick={()=>edit(user)}>
+                                            <FontAwesomeIcon icon={faEdit} />
+                                        </button>
+                                    </div>
+                                </td>
+                                <td className="px-0 py-5 border-b border-gray-200 text-sm items-center">
+                                    <div className="flex justify-center">
+                                        <button className="rounded-full shadow hover:text-indigo-900 flex items-center px-3 py-3 " onClick={()=>deleteUser(user._id)}>
+                                            <FontAwesomeIcon icon={faTrashAlt} />
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
-            </Card>
+            </Card></>}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React,{useState} from "react";
 import GradientBar from './common/GradientBar';
 import Card from './common/Card';
 import { Form, Formik, Field} from 'formik';
@@ -8,19 +8,18 @@ import FormInput from './FormInput'
 import Label from './common/Label';
 import GradientButton from './common/GradientButton';
 import * as Yup from 'yup';
-import { publicFetch } from '../util/fetch';
-// import { Redirect } from 'react-router-dom';
+import { publicFetch } from './../util/fetch';
+import moment from 'moment'
 
-export default function AddCampus(props) {
-
-
-    const AddUserSchema = Yup.object().shape({
+export default function Modal(props) {
+    
+    const EditSchema = Yup.object().shape({
         firstName: Yup.string().required(
             'FirstName is required'
         ), 
         lastName: Yup.string().required(
             'LastName is required'
-          ),
+        ),
         email: Yup.string().required(
             'Email is required'
         ),
@@ -34,44 +33,41 @@ export default function AddCampus(props) {
             'Valid is required'
         ),
     });
-
-    const [addUserSuccess, setSignupSuccess] = useState();
-    const [addUserError, setSignupError] = useState();
+    const [editUserSuccess, setEditUserSuccess] = useState();
+    const [editUserError, setEditUserError] = useState();
     
     
-    const [addLoading, setLoginLoading] = useState(false);
+    const [editLoading, setEditLoading] = useState(false);
     
-    const submitCredentials = async credentials => {
+    const submitUser = async values => {
         try {
-            setLoginLoading(true);
-            const { data } = await publicFetch.post(
-                `${props.idCampus}/users`,
-                credentials
+            setEditLoading(true);
+            const { data } = await publicFetch.put(
+                `${props.idCampus}/user/${props.user._id}`,
+                values
             );
-
-            console.log(credentials)
-
-            setSignupSuccess(data.message);
-            setSignupError('');
-        
-            setTimeout(() => {
-                // setRedirectOnLogin(true);
-                window.location.reload();
-            }, 50);
+    
+            setEditUserSuccess(data.message);
+            setEditUserError('');
 
         }
         catch (error) {
-            setLoginLoading(false);
+            setEditLoading(false);
             const { data } = error.response;
-            setSignupError(data.message);
-            setSignupSuccess('');
+            setEditUserError(data.message);
+            setEditUserSuccess('');
         }
         finally{
-            props.showAddPanel()
-            window.location.reload();
+            setTimeout(() => {
+                props.setShowModal(false)
+                window.location.reload();
+            }, 1000);
         }
+
     };
-    return (
+  return (
+    <>
+      {props.showModal ? (
         <>
             <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
@@ -80,25 +76,25 @@ export default function AddCampus(props) {
                         <div className="max-w-md w-full flex items-center justify-center">
                             <Formik
                                 initialValues={{
-                                    firstName: '',
-                                    lastName: '',
-                                    email: '',
-                                    password: '',
-                                    valid_until: '',
-                                    valid: false
+                                    firstName: props.user.firstName,
+                                    lastName: props.user.lastName,
+                                    email: props.user.email,
+                                    password: props.user.password,
+                                    valid_until: moment(props.user.valid_until).format("yyyy-MM-DTH:mm"),
+                                    valid: props.user.valid
                                 }}
                                 onSubmit={values =>
-                                submitCredentials(values)
+                                submitUser(values)
                                 }
-                                validationSchema={AddUserSchema}
+                                validationSchema={EditSchema}
                             >
                                 {({values}) => (
                                 <Form className="mt-8">
-                                    {addUserSuccess && (
-                                    <FormSuccess text={addUserSuccess} />
+                                    {editUserSuccess && (
+                                    <FormSuccess text={editUserSuccess} />
                                     )}
-                                    {addUserError && (
-                                    <FormError text={addUserError} />
+                                    {editUserError && (
+                                    <FormError text={editUserError} />
                                     )}
                                     <input
                                     type="hidden"
@@ -188,7 +184,7 @@ export default function AddCampus(props) {
                                     <GradientButton
                                         type="submit"
                                         text="Save"
-                                        loading={addLoading}
+                                        loading={editLoading}
                                     />
                                     </div>
                                 </Form>
@@ -199,5 +195,7 @@ export default function AddCampus(props) {
                 </Card>
             </section>
         </>
-    );
-};
+      ) : null}
+    </>
+  );
+}

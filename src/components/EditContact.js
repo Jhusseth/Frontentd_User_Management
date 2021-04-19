@@ -1,66 +1,64 @@
-import React,{ useState } from 'react'
+import React,{useState} from "react";
 import GradientBar from './common/GradientBar';
 import Card from './common/Card';
-import { Form, Formik } from 'formik';
+import { Form, Formik} from 'formik';
 import FormSuccess from './FormSuccess'
 import FormError from './common/FormError'
 import FormInput from './FormInput'
 import Label from './common/Label';
 import GradientButton from './common/GradientButton';
 import * as Yup from 'yup';
-import { publicFetch } from '../util/fetch';
-// import { Redirect } from 'react-router-dom';
+import { publicFetch } from './../util/fetch';
 
-export default function AddCampus(props) {
+export default function Modal(props) {
 
-
-    const AddContactSchema = Yup.object().shape({
-        name: Yup.string().required(
-            'Contact name is required'
-        ), 
-        email: Yup.string().required(
-            'Email is required'
-          ),
-        phone: Yup.string().required(
-            'Phone is required'
-        )
+  const EditSchema = Yup.object().shape({
+    name: Yup.string().required(
+        'Contact name is required'
+    ), 
+    email: Yup.string().required(
+        'Email is required'
+      ),
+    phone: Yup.string().required(
+        'phone is required'
+    ) 
     });
-    const [addContactSuccess, setSignupSuccess] = useState();
-    const [addContactError, setSignupError] = useState();
-    // const [redirectOnContact, setRedirectOnLogin] = useState(false)
+    const [editContactSuccess, setEditContactSuccess] = useState();
+    const [editContactError, setEditContactError] = useState();
     
     
-    const [addLoading, setLoginLoading] = useState(false);
+    const [editContact, setEditContact] = useState(false);
     
-    const submitCredentials = async credentials => {
+    const submitContact = async values => {
         try {
-            setLoginLoading(true);
-            const { data } = await publicFetch.post(
-                `${props.idCampus}/contacts`,
-                credentials
+            setEditContact(true);
+            const { data } = await publicFetch.put(
+                `${props.idCampus}/contact/${props.contact._id}`,
+                values
             );
     
-            setSignupSuccess(data.message);
-            setSignupError('');
-        
-            setTimeout(() => {
-                window.location.reload();
-            }, 10);
+            setEditContactSuccess(data.message);
+            setEditContactError('');
 
         }
         catch (error) {
-            setLoginLoading(false);
+            setEditContact(false);
             const { data } = error.response;
-            setSignupError(data.message);
-            setSignupSuccess('');
+            setEditContactError(data.message);
+            setEditContactSuccess('');
         }
         finally{
-            props.showAddPanel()
+            setTimeout(() => {
+                props.setShowModal(false)
+                window.location.reload();
+            }, 1000);
         }
+
     };
-    return (
+  return (
+    <>
+      {props.showModal ? (
         <>
-            {/* {redirectOnContact && <Redirect to="#" />} */}
             <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
                 <Card>
@@ -68,22 +66,22 @@ export default function AddCampus(props) {
                         <div className="max-w-md w-full flex items-center justify-center">
                             <Formik
                                 initialValues={{
-                                    name: '',
-                                    email: '',
-                                    phone: '',
+                                    name: props.contact.name,
+                                    email: props.contact.email,
+                                    phone: props.contact.phone,
                                 }}
                                 onSubmit={values =>
-                                submitCredentials(values)
+                                submitContact(values)
                                 }
-                                validationSchema={AddContactSchema}
+                                validationSchema={EditSchema}
                             >
                                 {() => (
                                 <Form className="mt-8">
-                                    {addContactSuccess && (
-                                    <FormSuccess text={addContactSuccess} />
+                                    {editContactSuccess && (
+                                    <FormSuccess text={editContactSuccess} />
                                     )}
-                                    {addContactError && (
-                                    <FormError text={addContactError} />
+                                    {editContactError && (
+                                    <FormError text={editContactError} />
                                     )}
                                     <input
                                     type="hidden"
@@ -133,11 +131,11 @@ export default function AddCampus(props) {
 
                                     </div>
                                     <div className="mt-6 flex items-center justify-center">
-                                    <GradientButton
-                                        type="submit"
-                                        text="Save"
-                                        loading={addLoading}
-                                    />
+                                        <GradientButton
+                                            type="submit"
+                                            text="Save"
+                                            loading={editContact}
+                                        />
                                     </div>
                                 </Form>
                                 )}
@@ -147,5 +145,7 @@ export default function AddCampus(props) {
                 </Card>
             </section>
         </>
-    );
-};
+      ) : null}
+    </>
+  );
+}

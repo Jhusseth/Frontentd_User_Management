@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCogs
+  faCogs,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import logo from './../images/logo.png';
@@ -12,22 +13,22 @@ const navItems = [
   
   {
     label: 'Campus',
-    path: 'campus',
+    path: '/campus',
     icon: faCogs,
     allowedRoles: ['user', 'admin']
   },
-  // {
-  //   label: 'Users',
-  //   path: 'contacts',
-  //   icon: faDoorOpen,
-  //   allowedRoles: ['admin']
-  // }
+  {
+    label: 'Users',
+    path: '/users',
+    icon: faUsers,
+    allowedRoles: ['admin']
+  }
 ];
 
 const NavItem = ({ navItem }) => {
   const location = useLocation();
   const isCurrentRoute =
-    location.pathname === `/${navItem.path}`;
+    location.pathname === `${navItem.path}`;
   const classes = classNames({
     'px-2 sm:px-6 justify-center sm:justify-start py-3 rounded-full flex': true,
     'text-gray-600 hover:text-gray-900 transform hover:translate-x-1 transition ease-in-out duration-100': !isCurrentRoute,

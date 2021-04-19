@@ -22,6 +22,7 @@ import FourOFour from './pages/FourOFour';
 
 
 const Users = lazy(() => import('./pages/Users'));
+const UsersRegisters = lazy(() => import('./pages/UsersRegisters'));
 const Campus = lazy(() => import('./pages/Campus'));
 const Contacts = lazy(() => import('./pages/Contacts'));
 
@@ -75,11 +76,14 @@ const AppRoutes = () => {
           <AuthenticatedRoute path="/campus2">
             <Redirect to="/campus" />
           </AuthenticatedRoute>
-          <AuthenticatedRoute path="/contacts">
+          <AuthenticatedRoute path="/:idCampus/contacts">
             <Contacts />
           </AuthenticatedRoute>
-          <AuthenticatedRoute path="/users">
+          <AuthenticatedRoute path="/:idCampus/users">
             <Users />
+          </AuthenticatedRoute>
+          <AuthenticatedRoute path="/users">
+            <UsersRegisters />
           </AuthenticatedRoute>
           <UnauthenticatedRoutes />
         </Switch>

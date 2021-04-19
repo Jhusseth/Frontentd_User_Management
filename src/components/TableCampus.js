@@ -5,6 +5,7 @@ import GradientBar from './../components/common/GradientBar';
 import { publicFetch } from '../util/fetch';
 import Alert from '../components/Alert'
 import EditCampus from '../components/EditCampus'
+import SearchInput from './SearchInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -36,7 +37,7 @@ export default function TableCampus(props) {
 
         setTimeout(() => {
             window.location.reload()
-        }, 700);
+        }, 500);
     }
 
     const close = ()=>{
@@ -45,12 +46,12 @@ export default function TableCampus(props) {
 
     const edit = (campus)=>{
         setCampus(campus)
-        console.log(campus)
         setShowModal(true)
     }
 
     return (
         <>
+            <div className="flex mb-6"><SearchInput/></div>
             {showModal?<EditCampus setShowModal={setShowModal} campus={campus} showModal={showModal}/>:<>
             <GradientBar />
             <Card>
@@ -115,7 +116,7 @@ export default function TableCampus(props) {
                                     <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div className="flex justify-center">
                                             <ButtonLink
-                                                to='/contacts'
+                                                to={"/" + campus._id + "/contacts"}
                                                 text='Ver'
                                                 />
                                         </div>
@@ -123,7 +124,7 @@ export default function TableCampus(props) {
                                     <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5">
                                         <div className="flex justify-center">
                                             <ButtonLink
-                                                to='/users'
+                                                to={"/" + campus._id + "/users"}
                                                 text='Ver'
                                                 />
                                         </div>

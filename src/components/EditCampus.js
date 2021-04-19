@@ -32,18 +32,17 @@ export default function Modal(props) {
     
     const [editCampus, setEditCampus] = useState(false);
     
-    const submitCredentials = async credentials => {
+    const submitCampus = async values => {
         try {
             setEditCampus(true);
             const { data } = await publicFetch.put(
                 `campus/${props.campus._id}`,
-                credentials
+                values
             );
 
-            console.log(credentials)
     
-        setAddCampusSuccess(data.message);
-        setAddCampusError('');
+            setAddCampusSuccess(data.message);
+            setAddCampusError('');
 
         }
         catch (error) {
@@ -64,7 +63,7 @@ export default function Modal(props) {
     <>
       {props.showModal ? (
         <>
-            <section className="w-1/2 h-screen m-auto sm:pt-10">
+            <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
                 <Card>
                     <div className="flex items-center justify-center py-7 px-2 sm:px-3 lg:px-3">
@@ -78,7 +77,7 @@ export default function Modal(props) {
                                     active: props.campus.active
                                 }}
                                 onSubmit={values =>
-                                submitCredentials(values)
+                                submitCampus(values)
                                 }
                                 validationSchema={EditSchema}
                             >
@@ -122,7 +121,7 @@ export default function Modal(props) {
                                         </div>
                                         <h2 className="display mt-6 mb-4">Ubication</h2>
                                         <div className="flex">
-                                            <div className="mb-2 mr-2 w-1/3">
+                                            <div className="mb-2 mr-2 w-64">
                                                 <div className="mb-1">
                                                     <Label text="City" />
                                                 </div>
@@ -133,7 +132,7 @@ export default function Modal(props) {
                                                     placeholder="City"
                                                 />
                                             </div>
-                                            <div className="mb-2 ml-2 w-1/2">
+                                            <div className="mb-2 ml-2 w-full">
                                                 <div className="mb-1 ml-4">
                                                     <Label text="Address" />
                                                 </div>
@@ -146,7 +145,7 @@ export default function Modal(props) {
                                                 />
                                                 </div>
                                             </div>
-                                            <div className="mb-2 ml-3 w-1/3">
+                                            <div className="mb-2 ml-3 w-64">
                                                 <div className="mb-1 ml-4">
                                                     <Label text="ZipCode" />
                                                 </div>
