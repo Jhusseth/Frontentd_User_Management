@@ -5,7 +5,6 @@ import GradientBar from './../components/common/GradientBar';
 import { publicFetch } from '../util/fetch';
 import Alert from '../components/Alert'
 import EditCampus from '../components/EditCampus'
-import SearchInput from './SearchInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -51,7 +50,6 @@ export default function TableCampus(props) {
 
     return (
         <>
-            <div className="flex mb-6"><SearchInput/></div>
             {showModal?<EditCampus setShowModal={setShowModal} campus={campus} showModal={showModal}/>:<>
             <GradientBar />
             <Card>

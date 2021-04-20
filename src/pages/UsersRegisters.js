@@ -1,13 +1,11 @@
 import React , {useState, useEffect} from 'react'
-import Button from '../components/common/GradientButton'
-import TableUsers from '../components/TableUsers'
+import TableUsers from '../components/TableUsersRegisters'
 import PageTitle from '../components/common/PageTitle';
 import { publicFetch } from '../util/fetch';
 
 export default function Users() {
-
-    const [showAdd, setShowAdd] = useState(false);
     const [users, setUsers ]=  useState([])
+    const [search, setSearch] = useState(false);
 
     useEffect(() => { 
         const listUsers = async () => {
@@ -17,12 +15,43 @@ export default function Users() {
     
             setUsers(data.users)
         }
-
-        listUsers()
+        if(!search){
+            listUsers()
+        }
     })
 
-    const showAddPanel =()=>{
-        setShowAdd(!showAdd)
+    const searchUser = async values =>{
+        setSearch(true)
+        try{
+
+            const { data } = await publicFetch.get(
+            `users/${values.search}` 
+            );
+
+            console.log(data.users)
+
+            if(data.users.length===0){
+                console.log('entro')
+
+                const { data } = await publicFetch.get(
+                    `usersCampus/${values.search}` 
+                );
+
+                setSearch(true)
+                console.log(data.users)
+                setUsers(data.users)
+                
+            }
+            else{
+                setSearch(true)
+                setUsers(data.users)
+            }
+        }
+        catch(error){
+            setSearch(true)
+            console.log(error)
+        }
+                
     }
 
     return (
@@ -32,10 +61,7 @@ export default function Users() {
                 <div className="py-8">
                     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div>
-                            <TableUsers users={users} />
-                        </div>
-                        <div className="container-add">
-                            <Button text="Add > " onClick={showAddPanel}/>
+                            <TableUsers users={users} searchUser={searchUser}/>
                         </div>
                     </div>
                 </div>

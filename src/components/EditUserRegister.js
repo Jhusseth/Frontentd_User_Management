@@ -8,7 +8,7 @@ import FormInput from './FormInput'
 import Label from './common/Label';
 import GradientButton from './common/GradientButton';
 import * as Yup from 'yup';
-import { publicFetch } from './../util/fetch';
+import { publicFetch } from '../util/fetch';
 import moment from 'moment'
 
 export default function Modal(props) {
@@ -43,7 +43,7 @@ export default function Modal(props) {
         try {
             setEditLoading(true);
             const { data } = await publicFetch.put(
-                `${props.idCampus}/user/${props.user._id}`,
+                `user/${props.user._id}`,
                 values
             );
     
@@ -81,8 +81,7 @@ export default function Modal(props) {
                                     email: props.user.email,
                                     password: props.user.password,
                                     valid_until: moment(props.user.valid_until).format("yyyy-MM-DTH:mm"),
-                                    valid: props.user.valid,
-                                    campus:props.idCampus
+                                    valid: props.user.valid
                                 }}
                                 onSubmit={values =>
                                 submitUser(values)
