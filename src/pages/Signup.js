@@ -11,7 +11,7 @@ import GradientBar from './../components/common/GradientBar';
 import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
 import { publicFetch } from './../util/fetch';
-import logo from './../images/logo.png';
+import logo from '../assets/images/logo.png';
 import { Redirect } from 'react-router-dom';
 
 const SignupSchema = Yup.object().shape({
@@ -151,7 +151,7 @@ const Signup = () => {
                       </div>
                     </div>
 
-                    <div className="mt-6">
+                    <div className="mt-6 float-right">
                       <GradientButton
                         type="submit"
                         text="Sign Up"

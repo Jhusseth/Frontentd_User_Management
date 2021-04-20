@@ -9,8 +9,8 @@ import {
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AuthContext } from './../context/AuthContext';
-import defaultAvatar from './../images/defaultAvatar.png';
+import { AuthContext } from '../context/AuthContext';
+import defaultAvatar from '../assets/images/defaultAvatar.png';
 
 const DropdownItem = ({ item }) => (
   <button

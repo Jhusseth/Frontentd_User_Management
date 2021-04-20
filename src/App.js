@@ -5,7 +5,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
-import './App.css';
+import './assets/stylesheets/App.css';
 
 import {
   AuthProvider,
@@ -94,6 +94,7 @@ const AppRoutes = () => {
 
 function App() {
   return (
+    <>
     <Router>
       <AuthProvider>
         <FetchProvider>
@@ -103,6 +104,8 @@ function App() {
         </FetchProvider>
       </AuthProvider>
     </Router>
+    
+    </>
   );
 }
 

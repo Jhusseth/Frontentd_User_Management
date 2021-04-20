@@ -1,7 +1,7 @@
 import React , {useState, useEffect} from 'react'
 import Button from '../components/common/GradientButton'
-import AddUser from '../components/AddUser'
-import TableUsers from '../components/TableUsers'
+import AddUser from '../components/user/AddUser'
+import TableUsers from '../components/user/TableUsers'
 import PageTitle from '../components/common/PageTitle';
 import { publicFetch } from './../util/fetch';
 

@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
-import ButtonLink from '../components/common/GradientLink';
-import Card from '../components/common/Card';
-import GradientBar from './../components/common/GradientBar';
-import { publicFetch } from '../util/fetch';
-import Alert from '../components/Alert'
-import EditCampus from '../components/EditCampus'
+import ButtonLink from '../common/GradientLink';
+import Card from '../common/Card';
+import GradientBar from '../common/GradientBar';
+import { publicFetch } from '../../util/fetch';
+import Alert from '../common/Alert'
+import EditCampus from './EditCampus'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

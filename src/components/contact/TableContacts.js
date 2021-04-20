@@ -1,9 +1,9 @@
 import React,{useState} from 'react'
-import Card from './common/Card';
-import GradientBar from './common/GradientBar';
-import { publicFetch } from '../util/fetch';
-import Alert from '../components/Alert'
-import EditContact from '../components/EditContact'
+import Card from '../common/Card';
+import GradientBar from '../common/GradientBar';
+import { publicFetch } from '../../util/fetch';
+import Alert from '../common/Alert'
+import EditContact from './EditContact'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

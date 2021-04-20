@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from './../context/AuthContext';
 import GradientLink from '../components/common/GradientLink';
 import GradientBar from './../components/common/GradientBar';
-import logo from './../images/logo.png';
+import logo from '../assets/images/logo.png';
 
 
 const Home = () => {

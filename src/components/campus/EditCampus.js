@@ -1,89 +1,85 @@
-import React,{ useState } from 'react'
-import GradientBar from './common/GradientBar';
-import Card from './common/Card';
+import React,{useState} from "react";
+import GradientBar from '../common/GradientBar';
+import Card from '../common/Card';
 import { Form, Formik, Field} from 'formik';
-import FormSuccess from './FormSuccess'
-import FormError from './common/FormError'
-import FormInput from './FormInput'
-import Label from './common/Label';
-import GradientButton from './common/GradientButton';
+import FormSuccess from '../FormSuccess'
+import FormError from '../common/FormError'
+import FormInput from '../FormInput'
+import Label from '../common/Label';
+import GradientButton from '../common/GradientButton';
+import GradientLink from '../common/GradientLink';
 import * as Yup from 'yup';
-import { publicFetch } from './../util/fetch';
-import { Redirect } from 'react-router-dom';
+import { publicFetch } from '../../util/fetch';
 
-export default function AddCampus(props) {
-
-
-    const AddSchema = Yup.object().shape({
-        name: Yup.string().required(
-            'Campus name is required'
-        ), 
-        city: Yup.string().required(
-            'City name is required'
-          ),
-        address: Yup.string().required(
-            'Address is required'
-        ),
-        zipcode: Yup.string().required(
-            'ZipCode is required'
-          ), 
+export default function Modal(props) {
+  const EditSchema = Yup.object().shape({
+    name: Yup.string().required(
+        'Campus name is required'
+    ), 
+    city: Yup.string().required(
+        'City name is required'
+      ),
+    address: Yup.string().required(
+        'Address is required'
+    ),
+    zipcode: Yup.string().required(
+        'ZipCode is required'
+      ), 
     });
-
     const [addCampusSuccess, setAddCampusSuccess] = useState();
     const [addCampusError, setAddCampusError] = useState();
-    const [redirectCampus, setRedirectOnCampus] = useState(false)
     
     
-    const [addCampus, setCampus] = useState(false);
+    const [editCampus, setEditCampus] = useState(false);
     
-    const submitCredentials = async credentials => {
+    const submitCampus = async values => {
         try {
-            setCampus(true);
-            const { data } = await publicFetch.post(
-                `campus`,
-                credentials
+            setEditCampus(true);
+            const { data } = await publicFetch.put(
+                `campus/${props.campus._id}`,
+                values
             );
+
     
-        setAddCampusSuccess(data.message);
-        setAddCampusError('');
-    
-        setTimeout(() => {
-            setRedirectOnCampus(true);
-        }, 50);
+            setAddCampusSuccess(data.message);
+            setAddCampusError('');
 
         }
         catch (error) {
-            setCampus(false);
+            setEditCampus(false);
             const { data } = error.response;
             setAddCampusError(data.message);
             setAddCampusSuccess('');
         }
         finally{
-            props.showAddPanel()
-            window.location.reload();
+            setTimeout(() => {
+                props.setShowModal(false)
+                window.location.reload();
+            }, 1000);
         }
-        
+
     };
-    return (
+  return (
+    <>
+      {props.showModal ? (
         <>
-            {redirectCampus && <Redirect push to="/campus2" />}
-            <section className="w-4/5 h-screen m-auto sm:pt-10">
+            <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
                 <Card>
                     <div className="flex items-center justify-center py-7 px-2 sm:px-3 lg:px-3">
                         <div className="max-w-md w-full flex items-center justify-center">
                             <Formik
                                 initialValues={{
-                                name: '',
-                                city: '',
-                                zipcode: '',
-                                address: '',
-                                active: false
+                                    name: props.campus.name,
+                                    city: props.campus.ubication.city,
+                                    zipcode: props.campus.ubication.zipcode,
+                                    address: props.campus.ubication.address,
+                                    active: props.campus.active
                                 }}
                                 onSubmit={values =>
-                                submitCredentials(values)
+                                submitCampus(values)
                                 }
-                                validationSchema={AddSchema}
+                                validationSchema={EditSchema}
                             >
                                 {({values}) => (
                                 <Form className="mt-8">
@@ -166,11 +162,17 @@ export default function AddCampus(props) {
 
                                     </div>
                                     <div className="mt-6 flex items-center justify-center">
-                                    <GradientButton
-                                        type="submit"
-                                        text="Save"
-                                        loading={addCampus}
-                                    />
+                                        <GradientButton
+                                            type="submit"
+                                            text="Save"
+                                            loading={editCampus}
+                                        />
+                                        <div className="ml-6">
+                                            <GradientLink
+                                                to="/campus2"
+                                                text="Exit"
+                                            />
+                                        </div>
                                     </div>
                                 </Form>
                                 )}
@@ -180,5 +182,7 @@ export default function AddCampus(props) {
                 </Card>
             </section>
         </>
-    );
-};
+      ) : null}
+    </>
+  );
+}

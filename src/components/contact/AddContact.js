@@ -1,14 +1,14 @@
 import React,{ useState } from 'react'
-import GradientBar from './common/GradientBar';
-import Card from './common/Card';
+import GradientBar from '../common/GradientBar';
+import Card from '../common/Card';
 import { Form, Formik } from 'formik';
-import FormSuccess from './FormSuccess'
-import FormError from './common/FormError'
-import FormInput from './FormInput'
-import Label from './common/Label';
-import GradientButton from './common/GradientButton';
+import FormSuccess from '../FormSuccess'
+import FormError from '../common/FormError'
+import FormInput from '../FormInput'
+import Label from '../common/Label';
+import GradientButton from '../common/GradientButton';
 import * as Yup from 'yup';
-import { publicFetch } from '../util/fetch';
+import { publicFetch } from '../../util/fetch';
 // import { Redirect } from 'react-router-dom';
 
 export default function AddCampus(props) {

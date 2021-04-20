@@ -9,7 +9,7 @@ const FourOFour = () => {
       </h1>
       <h2 className="text-4xl">Page Not Found</h2>
       <div className="mt-2">
-        <GradientLink text="Go Back Home" to="/" />
+        <GradientLink text="Go Back Home" to="/campus" />
       </div>
     </div>
   );

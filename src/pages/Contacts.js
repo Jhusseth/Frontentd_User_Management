@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import TableContacts from '../components/TableContacts'
+import TableContacts from '../components/contact/TableContacts'
 import Button from '../components/common/GradientButton'
-import AddContact from '../components/AddContact'
+import AddContact from '../components/contact/AddContact'
 import PageTitle from '../components/common/PageTitle';
-import { publicFetch } from './../util/fetch';
+import { publicFetch } from '../util/fetch';
 
 import {
     useParams

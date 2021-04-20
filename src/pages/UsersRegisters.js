@@ -1,5 +1,5 @@
 import React , {useState, useEffect} from 'react'
-import TableUsers from '../components/TableUsersRegisters'
+import TableUsers from '../components/user-registers/TableUsersRegisters'
 import PageTitle from '../components/common/PageTitle';
 import { publicFetch } from '../util/fetch';
 

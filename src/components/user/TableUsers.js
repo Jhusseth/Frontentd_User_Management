@@ -1,11 +1,10 @@
 import React,{ useState } from 'react'
-import Card from './common/Card';
-import GradientBar from './common/GradientBar';
-import { publicFetch } from '../util/fetch';
-import Alert from './Alert'
+import Card from '../common/Card';
+import GradientBar from '../common/GradientBar';
+import { publicFetch } from '../../util/fetch';
+import Alert from '../common/Alert'
 import EditUser from './EditUser'
 import moment from 'moment'
-import SearchInput from './SearchInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -34,9 +33,6 @@ export default function TableCampus(props) {
             setMResponse(data.message)
             setShow(true)
         }
-        finally{
-            window.location.reload();
-        }
     }
 
     const close = ()=>{
@@ -48,29 +44,8 @@ export default function TableCampus(props) {
         setShowModal(true)
     }
 
-    // const getCampus = async id =>{
-
-    //     console.log(id)
-
-    //     if(id==null){
-    //         try {
-    //             const { data } = await publicFetch.get(
-    //             `campus/${id}` 
-    //             );
-                
-    //             setCmp(data.campus)
-    //         }
-    //         catch (error) {
-    //             const { data } = error.response;
-    //             setCmp(data.message);
-    //         }
-    //     }
-
-    // }
-
     return (
         <>
-            <div className="flex mb-6"><SearchInput searchUser={props.searchUser} /></div>
             {showModal?<EditUser setShowModal={setShowModal} user={user} showModal={showModal}/>:<>
             <GradientBar />
             <Card>
@@ -87,9 +62,6 @@ export default function TableCampus(props) {
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
                                     email
-                                </th>
-                                <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
-                                    campus
                                 </th>
                                 <th scope="col" className="px-0 py-3 bg-white  border-b border-gray-200 text-gray-800  text-center text-sm uppercase font-normal">
                                     valid until
@@ -135,21 +107,14 @@ export default function TableCampus(props) {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                        <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
-                                        </span>
-                                        <span className="relative">
-                                            {user.campus?"Yes":"No"}
-                                        </span>
-                                    </span>
-                                </td>
                                 <td className="px-0 py-5 border-b border-gray-200 bg-white text-sm ml-5 text-center">
                                     <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                         <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                         </span>
                                         <span className="relative">
+                                            {/* {user.valid_until.split('T')[0] + " " + user.valid_until.split('T')[1].split('.')[0].split(':')[0] + ":" + user.valid_until.split('T')[1].split('.')[0].split(':')[1]} */}
                                             {moment(user.valid_until).format('MMMM Do YYYY, hh:mm a')}
+                                            
                                         </span>
                                     </span>
                                 </td>

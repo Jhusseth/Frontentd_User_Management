@@ -1,7 +1,7 @@
 import React , {useState, useEffect} from 'react'
 import Button from '../components/common/GradientButton'
-import AddCampus from '../components/AddCampus'
-import TableCampus from '../components/TableCampus'
+import AddCampus from '../components/campus/AddCampus'
+import TableCampus from '../components/campus/TableCampus'
 import PageTitle from '../components/common/PageTitle';
 import { publicFetch } from './../util/fetch';
 

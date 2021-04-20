@@ -1,25 +1,26 @@
-import React,{useState} from "react";
-import GradientBar from './common/GradientBar';
-import Card from './common/Card';
+import React,{ useState } from 'react'
+import GradientBar from '../common/GradientBar';
+import Card from '../common/Card';
 import { Form, Formik, Field} from 'formik';
-import FormSuccess from './FormSuccess'
-import FormError from './common/FormError'
-import FormInput from './FormInput'
-import Label from './common/Label';
-import GradientButton from './common/GradientButton';
+import FormSuccess from '../FormSuccess'
+import FormError from '../common/FormError'
+import FormInput from '../FormInput'
+import Label from '../common/Label';
+import GradientButton from '../common/GradientButton';
 import * as Yup from 'yup';
-import { publicFetch } from './../util/fetch';
-import moment from 'moment'
+import { publicFetch } from '../../util/fetch';
+// import { Redirect } from 'react-router-dom';
 
-export default function Modal(props) {
-    
-    const EditSchema = Yup.object().shape({
+export default function AddCampus(props) {
+
+
+    const AddUserSchema = Yup.object().shape({
         firstName: Yup.string().required(
             'FirstName is required'
         ), 
         lastName: Yup.string().required(
             'LastName is required'
-        ),
+          ),
         email: Yup.string().required(
             'Email is required'
         ),
@@ -33,41 +34,44 @@ export default function Modal(props) {
             'Valid is required'
         ),
     });
-    const [editUserSuccess, setEditUserSuccess] = useState();
-    const [editUserError, setEditUserError] = useState();
+
+    const [addUserSuccess, setSignupSuccess] = useState();
+    const [addUserError, setSignupError] = useState();
     
     
-    const [editLoading, setEditLoading] = useState(false);
+    const [addLoading, setLoginLoading] = useState(false);
     
-    const submitUser = async values => {
+    const submitCredentials = async credentials => {
         try {
-            setEditLoading(true);
-            const { data } = await publicFetch.put(
-                `${props.idCampus}/user/${props.user._id}`,
-                values
+            setLoginLoading(true);
+            const { data } = await publicFetch.post(
+                `${props.idCampus}/users`,
+                credentials
             );
-    
-            setEditUserSuccess(data.message);
-            setEditUserError('');
+
+            console.log(credentials)
+
+            setSignupSuccess(data.message);
+            setSignupError('');
+        
+            setTimeout(() => {
+                // setRedirectOnLogin(true);
+                window.location.reload();
+            }, 50);
 
         }
         catch (error) {
-            setEditLoading(false);
+            setLoginLoading(false);
             const { data } = error.response;
-            setEditUserError(data.message);
-            setEditUserSuccess('');
+            setSignupError(data.message);
+            setSignupSuccess('');
         }
         finally{
-            setTimeout(() => {
-                props.setShowModal(false)
-                window.location.reload();
-            }, 1000);
+            props.showAddPanel()
+            window.location.reload();
         }
-
     };
-  return (
-    <>
-      {props.showModal ? (
+    return (
         <>
             <section className="w-3/4 h-screen m-auto sm:pt-10">
                 <GradientBar />
@@ -76,26 +80,25 @@ export default function Modal(props) {
                         <div className="max-w-md w-full flex items-center justify-center">
                             <Formik
                                 initialValues={{
-                                    firstName: props.user.firstName,
-                                    lastName: props.user.lastName,
-                                    email: props.user.email,
-                                    password: props.user.password,
-                                    valid_until: moment(props.user.valid_until).format("yyyy-MM-DTH:mm"),
-                                    valid: props.user.valid,
-                                    campus:props.idCampus
+                                    firstName: '',
+                                    lastName: '',
+                                    email: '',
+                                    password: '',
+                                    valid_until: '',
+                                    valid: false
                                 }}
                                 onSubmit={values =>
-                                submitUser(values)
+                                submitCredentials(values)
                                 }
-                                validationSchema={EditSchema}
+                                validationSchema={AddUserSchema}
                             >
                                 {({values}) => (
                                 <Form className="mt-8">
-                                    {editUserSuccess && (
-                                    <FormSuccess text={editUserSuccess} />
+                                    {addUserSuccess && (
+                                    <FormSuccess text={addUserSuccess} />
                                     )}
-                                    {editUserError && (
-                                    <FormError text={editUserError} />
+                                    {addUserError && (
+                                    <FormError text={addUserError} />
                                     )}
                                     <input
                                     type="hidden"
@@ -185,7 +188,7 @@ export default function Modal(props) {
                                     <GradientButton
                                         type="submit"
                                         text="Save"
-                                        loading={editLoading}
+                                        loading={addLoading}
                                     />
                                     </div>
                                 </Form>
@@ -196,7 +199,5 @@ export default function Modal(props) {
                 </Card>
             </section>
         </>
-      ) : null}
-    </>
-  );
-}
+    );
+};

@@ -6,8 +6,8 @@ import {
   faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import logo from './../images/logo.png';
-import { AuthContext } from './../context/AuthContext';
+import logo from '../assets/images/logo.png';
+import { AuthContext } from '../context/AuthContext';
 
 const navItems = [
   
